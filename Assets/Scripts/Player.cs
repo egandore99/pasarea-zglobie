@@ -23,6 +23,14 @@ public class Player : MonoBehaviour
         InvokeRepeating(nameof(AnimateSprite), 0.15f, 0.15f);
     }
 
+    private void OnEnable()
+    {
+        Vector3 position = transform.position;
+        position.y = 0f;
+        transform.position = position;
+        direction = Vector3.zero;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
@@ -39,6 +47,10 @@ public class Player : MonoBehaviour
                 direction = Vector3.up * strength;
             }
         }
+
+        Quaternion rot = transform.rotation;
+        rot.z = direction.y * 0.02f;
+        transform.rotation = rot;
 
         direction.y += gravity * Time.deltaTime;
         transform.position += direction * Time.deltaTime;
